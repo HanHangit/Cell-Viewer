@@ -10,6 +10,6 @@ namespace Assets.Scripts.Utilities
 {
     public abstract class InteractObjectFactory : MonoBehaviour
     {
-        public abstract InteractObject GetInteractObject();
+        public abstract InteractHoverObject GetInteractObject();
     }
 }

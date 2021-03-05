@@ -43,7 +43,6 @@ namespace Assets.Scripts.Movement
 
             _deviceRoot.LookAt(mouseWorldPos);
             _deviceRoot.transform.position = _camera.transform.position;
-
         }
 
         public override InputInteractionHandler GetInteractionHandler()

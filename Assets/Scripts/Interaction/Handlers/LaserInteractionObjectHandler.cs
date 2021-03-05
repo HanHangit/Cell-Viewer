@@ -24,16 +24,19 @@ namespace Assets.Scripts.Interaction
         [SerializeField]
         private Transform _rayOrigin = default;
 
-        public class InteractEvent : UnityEvent<List<InteractObject>> { }
+        public class InteractEvent : UnityEvent<List<InteractHoverObject>> { }
 
-        public UnityEvent<List<InteractObject>> OnHoverBeginEvent = new InteractEvent();
-        public UnityEvent<List<InteractObject>> OnHoverUpdateEvent = new InteractEvent();
-        public UnityEvent<List<InteractObject>> OnHoverEndEvent = new InteractEvent();
+        public UnityEvent<List<InteractHoverObject>> OnHoverBeginEvent = new InteractEvent();
+        public UnityEvent<List<InteractHoverObject>> OnHoverUpdateEvent = new InteractEvent();
+        public UnityEvent<List<InteractHoverObject>> OnHoverEndEvent = new InteractEvent();
 
-        private List<InteractObject> _currentInteractionObjects = new List<InteractObject>();
+        private List<InteractHoverObject> _currentHoverObjects = new List<InteractHoverObject>();
+        private List<InteractSelectionObject> _currentSelectionObjects = new List<InteractSelectionObject>();
 
         private void Update()
         {
+            HoverUpdate();
+
             var ray = new Ray(_rayOrigin.position, _rayOrigin.forward);
             var hits = Physics.RaycastAll(ray, 1000, _collisionMask);
             if (hits.Any())
@@ -48,63 +51,96 @@ namespace Assets.Scripts.Interaction
             }
         }
 
-        private void OnHit(RaycastHit? hit)
+        private void HoverUpdate()
         {
-            var interactObject = hit?.collider.GetComponents<InteractObject>();
-
-            if (interactObject != null)
+            foreach (var interactObject in _currentHoverObjects)
             {
-                var newList = new List<InteractObject>();
+                OnHoverUpdateEvent?.Invoke(new List<InteractHoverObject> { interactObject });
+            }
+        }
 
-                foreach (var o in interactObject)
+        private void SetSelectionObjects(InteractSelectionObject[] selectionObjects)
+        {
+            if (selectionObjects != null)
+            {
+                _currentSelectionObjects.Clear();
+                _currentSelectionObjects.AddRange(selectionObjects);
+            }
+            else
+            {
+                foreach (var o in _currentHoverObjects)
                 {
-                    if (_currentInteractionObjects.Contains(o))
+                    OnHoverEndEvent?.Invoke(new List<InteractHoverObject> { o });
+                }
+                _currentSelectionObjects.Clear();
+            }
+        }
+
+        private void SetHoverObjects(InteractHoverObject[] hoverObjects)
+        {
+            if (hoverObjects != null)
+            {
+                var newList = new List<InteractHoverObject>();
+
+                foreach (var o in hoverObjects)
+                {
+                    if (!_currentHoverObjects.Contains(o))
                     {
-                        OnHoverUpdateEvent?.Invoke(new List<InteractObject> { o });
-                    }
-                    else
-                    {
-                        OnHoverBeginEvent?.Invoke(new List<InteractObject> { o });
+                        OnHoverBeginEvent?.Invoke(new List<InteractHoverObject> { o });
                     }
 
-                    _currentInteractionObjects.Remove(o);
+                    _currentHoverObjects.Remove(o);
 
                     newList.Add(o);
                 }
 
-                foreach (var end in _currentInteractionObjects)
+                foreach (var end in _currentHoverObjects)
                 {
-                    OnHoverEndEvent?.Invoke(new List<InteractObject> { end });
+                    OnHoverEndEvent?.Invoke(new List<InteractHoverObject> { end });
                 }
 
-                _currentInteractionObjects = newList;
+                _currentHoverObjects = newList;
             }
             else
             {
-                foreach (var o in _currentInteractionObjects)
+                foreach (var o in _currentHoverObjects)
                 {
-                    OnHoverEndEvent?.Invoke(new List<InteractObject> { o });
+                    OnHoverEndEvent?.Invoke(new List<InteractHoverObject> { o });
                 }
-                _currentInteractionObjects.Clear();
+                _currentHoverObjects.Clear();
             }
         }
 
-        public void AddHoverUpdateEventListener(UnityAction<List<InteractObject>> callback)
+        private void OnHit(RaycastHit? hit)
+        {
+            var hoverObjects = hit?.collider.GetComponents<InteractHoverObject>();
+            var selectionObjects = hit?.collider.GetComponents<InteractSelectionObject>();
+            Debug.Log(hoverObjects?.Length);
+            SetHoverObjects(hoverObjects);
+            SetSelectionObjects(selectionObjects);
+        }
+
+        public void AddHoverUpdateEventListener(UnityAction<List<InteractHoverObject>> callback)
         {
             OnHoverUpdateEvent.AddListener(callback);
         }
 
-        public void AddHoverBeginEventListener(UnityAction<List<InteractObject>> callback)
+        public void AddHoverBeginEventListener(UnityAction<List<InteractHoverObject>> callback)
         {
             OnHoverBeginEvent.AddListener(callback);
         }
 
-        public void AddHoverEndEventListener(UnityAction<List<InteractObject>> callback)
+        public void AddHoverEndEventListener(UnityAction<List<InteractHoverObject>> callback)
         {
             OnHoverEndEvent.AddListener(callback);
         }
 
-        public override InteractObjectHandler GetInteractObjectHandler()
+        public List<InteractSelectionObject> GetCurrentSelectionObjects()
+        {
+            return _currentSelectionObjects;
+        }
+
+        public override InteractObjectHandler CreateInteractObjectHandler()
         {
             return this;
         }

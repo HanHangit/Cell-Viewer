@@ -15,7 +15,8 @@ namespace Assets.Scripts.Interaction
         [SerializeField]
         private InteractArgsCreatorFactory _interactArgsCreatorFactory = null;
 
-        private List<InteractObject> _currentInteractObjects = new List<InteractObject>();
+        private List<InteractHoverObject> _currentHoverObjects = new List<InteractHoverObject>();
+        private List<InteractSelectionObject> _currentSelectionObjects = new List<InteractSelectionObject>();
         private InputInteractionHandler _inputHandler = null;
         private InteractObjectHandler _interactObjectHandler = null;
         private InteractArgsCreator _interactArgsCreator = null;
@@ -24,8 +25,7 @@ namespace Assets.Scripts.Interaction
         {
             _inputHandler = _inputHandlerFactory.GetInteractionHandler();
             _interactArgsCreator = _interactArgsCreatorFactory.GetInteractArgsCreator();
-            _interactObjectHandler = _interactObjectHandlerFactory.GetInteractObjectHandler();
-
+            _interactObjectHandler = _interactObjectHandlerFactory.CreateInteractObjectHandler();
 
             _interactObjectHandler.AddHoverBeginEventListener(HoverBeginEventListener);
             _interactObjectHandler.AddHoverUpdateEventListener(HoverUpdateEventListener);
@@ -36,65 +36,75 @@ namespace Assets.Scripts.Interaction
 
         private void InputReleasedEventListener()
         {
-            foreach (var interactObject in _currentInteractObjects)
+            foreach (var interactObject in _currentSelectionObjects)
             {
-                interactObject.EndTrigger(_interactArgsCreator.GetInteractArgs());
+                interactObject.OnEndSelection(_interactArgsCreator.GetInteractArgs());
             }
+            _currentSelectionObjects.Clear();
         }
 
         private void InputPressedEventListener()
         {
-            foreach (var interactObject in _currentInteractObjects)
+            _currentSelectionObjects.AddRange(_interactObjectHandler.GetCurrentSelectionObjects());
+            foreach (var selectionObject in _currentSelectionObjects)
             {
-                interactObject.BeginTrigger(_interactArgsCreator.GetInteractArgs());
+                selectionObject.OnBeginSelection(_interactArgsCreator.GetInteractArgs());
             }
         }
 
-        private void HoverBeginEventListener(List<InteractObject> obj)
+        private void Update()
+        {
+            foreach (var selectionObject in _currentSelectionObjects)
+            {
+                selectionObject.OnUpdateSelection(_interactArgsCreator.GetInteractArgs());
+            }
+        }
+
+        private void HoverBeginEventListener(List<InteractHoverObject> obj)
         {
             AddNewInteractObjects(obj);
             foreach (var interactObject in obj)
             {
-                interactObject.HoverBegin(_interactArgsCreator.GetInteractArgs());
+                interactObject.OnHoverBegin(_interactArgsCreator.GetInteractArgs());
             }
         }
 
-        private void HoverUpdateEventListener(List<InteractObject> obj)
+        private void HoverUpdateEventListener(List<InteractHoverObject> obj)
         {
             foreach (var interactObject in obj)
             {
-                interactObject.HoverUpdate(_interactArgsCreator.GetInteractArgs());
+                interactObject.OnHoverUpdate(_interactArgsCreator.GetInteractArgs());
             }
         }
 
-        private void HoverEndEventListener(List<InteractObject> obj)
+        private void HoverEndEventListener(List<InteractHoverObject> obj)
         {
             RemoveEndInteractObjects(obj);
 
             foreach (var interactObject in obj)
             {
-                interactObject.HoverEnd(_interactArgsCreator.GetInteractArgs());
+                interactObject.OnHoverEnd(_interactArgsCreator.GetInteractArgs());
             }
         }
 
-        private void AddNewInteractObjects(List<InteractObject> newObjects)
+        private void AddNewInteractObjects(List<InteractHoverObject> newObjects)
         {
             foreach (var newObject in newObjects)
             {
-                if (!_currentInteractObjects.Contains(newObject))
+                if (!_currentHoverObjects.Contains(newObject))
                 {
-                    _currentInteractObjects.Add(newObject);
+                    _currentHoverObjects.Add(newObject);
                 }
             }
         }
 
-        private void RemoveEndInteractObjects(List<InteractObject> endObjects)
+        private void RemoveEndInteractObjects(List<InteractHoverObject> endObjects)
         {
             foreach (var endObject in endObjects)
             {
-                if (_currentInteractObjects.Contains(endObject))
+                if (_currentHoverObjects.Contains(endObject))
                 {
-                    _currentInteractObjects.Remove(endObject);
+                    _currentHoverObjects.Remove(endObject);
                 }
             }
         }
@@ -113,10 +123,12 @@ namespace Assets.Scripts.Interaction
 
     public interface InteractObjectHandler
     {
-        void AddHoverUpdateEventListener(UnityAction<List<InteractObject>> callback);
+        void AddHoverUpdateEventListener(UnityAction<List<InteractHoverObject>> callback);
 
-        void AddHoverBeginEventListener(UnityAction<List<InteractObject>> callback);
+        void AddHoverBeginEventListener(UnityAction<List<InteractHoverObject>> callback);
 
-        void AddHoverEndEventListener(UnityAction<List<InteractObject>> callback);
+        void AddHoverEndEventListener(UnityAction<List<InteractHoverObject>> callback);
+
+        List<InteractSelectionObject> GetCurrentSelectionObjects();
     }
 }

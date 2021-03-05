@@ -10,6 +10,6 @@ namespace Assets.Scripts.Utilities
 {
     public abstract class InteractObjectHandlerFactory : MonoBehaviour
     {
-        public abstract InteractObjectHandler GetInteractObjectHandler();
+        public abstract InteractObjectHandler CreateInteractObjectHandler();
     }
 }
