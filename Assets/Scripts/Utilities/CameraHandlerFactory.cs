@@ -8,8 +8,8 @@ using UnityEngine;
 
 namespace Assets.Scripts.Utilities
 {
-    public abstract class InteractObjectFactory : MonoBehaviour
+    public abstract class CameraHandlerFactory : MonoBehaviour
     {
-        public abstract InteractHoverObject GetInteractObject();
+        public abstract CameraHandler CreateCameraHandler();
     }
 }

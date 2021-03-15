@@ -115,7 +115,6 @@ namespace Assets.Scripts.Interaction
         {
             var hoverObjects = hit?.collider.GetComponents<InteractHoverObject>();
             var selectionObjects = hit?.collider.GetComponents<InteractSelectionObject>();
-            Debug.Log(hoverObjects?.Length);
             SetHoverObjects(hoverObjects);
             SetSelectionObjects(selectionObjects);
         }

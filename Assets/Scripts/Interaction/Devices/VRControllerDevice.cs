@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Assets.Scripts.Utilities;
 using HeadlessOpenVR;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Assets.Scripts.Interaction.Devices
@@ -39,7 +40,26 @@ namespace Assets.Scripts.Interaction.Devices
         public void AddInteractionReleasedEventListener(Action callback)
         {
             InteractionReleasedEvent.AddListener(() => callback());
+        }
 
+        public void AddInteractionPressedEventListener(UnityAction callback)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddInteractionReleasedEventListener(UnityAction callback)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddMovementEventListener(UnityAction<Vector3> callback)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddRotationEventListener(UnityAction<Quaternion> callback)
+        {
+            throw new NotImplementedException();
         }
     }
 }

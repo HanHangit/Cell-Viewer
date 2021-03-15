@@ -195,6 +195,12 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!4 &506640684 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6931617199096379361, guid: 6a52ad637607d3a4299ef0200a14934d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1882104919}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &548019107
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,7 +323,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _meshRenderer: {fileID: 548019109}
-  _newColor: {r: 1, g: 0, b: 0, a: 1}
+  _hoverColor: {r: 1, g: 0, b: 0, a: 1}
+  _selectionColor: {r: 1, g: 0, b: 1, a: 1}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,6 +522,7 @@ GameObject:
   - component: {fileID: 856584805}
   - component: {fileID: 856584807}
   - component: {fileID: 856584806}
+  - component: {fileID: 856584808}
   m_Layer: 0
   m_Name: Debug
   m_TagString: Untagged
@@ -529,11 +537,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 856584804}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.07, y: 0.236, z: -0.712}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1700725403}
+  m_Father: {fileID: 506640684}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &856584806
@@ -591,14 +599,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acc22eb1ae454e9e9a19736298134d82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InteractionPressedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  InteractionReleasedEvent:
-    m_PersistentCalls:
-      m_Calls: []
   _deviceRoot: {fileID: 1160535326}
   _camera: {fileID: 856584806}
+--- !u!114 &856584808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 856584804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d85a32462b48e3a0b6347396009518, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _transform: {fileID: 856584805}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1168,7 +1183,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _meshRenderer: {fileID: 1607253636}
-  _newColor: {r: 1, g: 0, b: 0, a: 1}
+  _hoverColor: {r: 1, g: 0, b: 0, a: 1}
+  _selectionColor: {r: 1, g: 0, b: 1, a: 1}
 --- !u!114 &1607253640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1182,12 +1198,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _root: {fileID: 1607253638}
---- !u!4 &1700725403 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6931617199096379361, guid: 6a52ad637607d3a4299ef0200a14934d,
-    type: 3}
-  m_PrefabInstance: {fileID: 1882104919}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1791279062
 GameObject:
   m_ObjectHideFlags: 0
@@ -2047,7 +2057,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _meshRenderer: {fileID: 2013679653}
-  _newColor: {r: 1, g: 0, b: 0, a: 1}
+  _hoverColor: {r: 1, g: 0, b: 0, a: 1}
+  _selectionColor: {r: 1, g: 0, b: 1, a: 1}
 --- !u!1 &2071762672
 GameObject:
   m_ObjectHideFlags: 0
@@ -2159,6 +2170,11 @@ PrefabInstance:
       propertyPath: _inputHandlerFactory
       value: 
       objectReference: {fileID: 856584807}
+    - target: {fileID: 4156599397694372180, guid: 3ac8fc8ed4572904794653ebea19aa06,
+        type: 3}
+      propertyPath: _cameraHandlerFactory
+      value: 
+      objectReference: {fileID: 856584808}
     - target: {fileID: 9062346242120610280, guid: 3ac8fc8ed4572904794653ebea19aa06,
         type: 3}
       propertyPath: _rayOrigin

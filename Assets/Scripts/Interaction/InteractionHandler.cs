@@ -9,29 +9,45 @@ namespace Assets.Scripts.Interaction
     public class InteractionHandler : MonoBehaviour
     {
         [SerializeField]
-        private InputInteractionHandlerFactory _inputHandlerFactory = null;
+        private InputInteractionHandlerFactory _inputHandlerFactory = default;
         [SerializeField]
-        private InteractObjectHandlerFactory _interactObjectHandlerFactory = null;
+        private InteractObjectHandlerFactory _interactObjectHandlerFactory = default;
         [SerializeField]
-        private InteractArgsCreatorFactory _interactArgsCreatorFactory = null;
+        private InteractArgsCreatorFactory _interactArgsCreatorFactory = default;
+        [SerializeField]
+        private CameraHandlerFactory _cameraHandlerFactory = default;
 
         private List<InteractHoverObject> _currentHoverObjects = new List<InteractHoverObject>();
         private List<InteractSelectionObject> _currentSelectionObjects = new List<InteractSelectionObject>();
         private InputInteractionHandler _inputHandler = null;
         private InteractObjectHandler _interactObjectHandler = null;
         private InteractArgsCreator _interactArgsCreator = null;
+        private CameraHandler _cameraHandler = null;
 
         private void Start()
         {
             _inputHandler = _inputHandlerFactory.GetInteractionHandler();
             _interactArgsCreator = _interactArgsCreatorFactory.GetInteractArgsCreator();
             _interactObjectHandler = _interactObjectHandlerFactory.CreateInteractObjectHandler();
+            _cameraHandler = _cameraHandlerFactory.CreateCameraHandler();
 
             _interactObjectHandler.AddHoverBeginEventListener(HoverBeginEventListener);
             _interactObjectHandler.AddHoverUpdateEventListener(HoverUpdateEventListener);
             _interactObjectHandler.AddHoverEndEventListener(HoverEndEventListener);
             _inputHandler.AddInteractionPressedEventListener(InputPressedEventListener);
             _inputHandler.AddInteractionReleasedEventListener(InputReleasedEventListener);
+            _inputHandler.AddMovementEventListener(InputMovementEventListener);
+            _inputHandler.AddRotationEventListener(InputRotationEventListener);
+        }
+
+        private void InputRotationEventListener(Quaternion arg0)
+        {
+            _cameraHandler.RotateCamera(arg0);
+        }
+
+        private void InputMovementEventListener(Vector3 arg0)
+        {
+            _cameraHandler.MoveCamera(arg0);
         }
 
         private void InputReleasedEventListener()
@@ -117,8 +133,10 @@ namespace Assets.Scripts.Interaction
 
     public interface InputInteractionHandler
     {
-        void AddInteractionPressedEventListener(Action callback);
-        void AddInteractionReleasedEventListener(Action callback);
+        void AddInteractionPressedEventListener(UnityAction callback);
+        void AddInteractionReleasedEventListener(UnityAction callback);
+        void AddMovementEventListener(UnityAction<Vector3> callback);
+        void AddRotationEventListener(UnityAction<Quaternion> callback);
     }
 
     public interface InteractObjectHandler
@@ -130,5 +148,11 @@ namespace Assets.Scripts.Interaction
         void AddHoverEndEventListener(UnityAction<List<InteractHoverObject>> callback);
 
         List<InteractSelectionObject> GetCurrentSelectionObjects();
+    }
+
+    public interface CameraHandler
+    {
+        void MoveCamera(Vector3 move);
+        void RotateCamera(Quaternion rotation);
     }
 }
