@@ -14,9 +14,17 @@ namespace Assets.Scripts.Interaction.Bhvrs
 
         public Entity Entity => _entity;
 
+        [SerializeField]
+        private Transform _targetDragPosition;
+
         public Vector3 GetPosition()
         {
             return transform.position;
+        }
+
+        public Vector3 GetTargetDragPosition()
+        {
+            return _targetDragPosition.position;
         }
     }
 }

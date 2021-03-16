@@ -32,7 +32,12 @@ namespace Assets.Scripts.Interaction.Handlers
 
         public void OnUpdateSelection(InteractArgs args)
         {
-            _root.position = args.OriginPosition + args.OriginLookDirection * _offset;
+            float moveOffset = 0.0f;
+            if (args.Offset != Vector3.zero)
+            {
+                moveOffset = Vector3.Dot(args.OriginLookDirection, args.Offset);
+            }
+            _root.position = args.OriginPosition + args.OriginLookDirection * _offset + args.OriginLookDirection * moveOffset;
         }
 
         public void AddOnSelectionEventListener(UnityAction action)

@@ -24,6 +24,9 @@ namespace Assets.Scripts.Interaction
         private InteractArgsCreator _interactArgsCreator = null;
         private CameraHandler _cameraHandler = null;
 
+        private Vector3 _movementDuringSelection = Vector3.zero;
+        private bool _inSelectionMode = false;
+
         private void Start()
         {
             _inputHandler = _inputHandlerFactory.GetInteractionHandler();
@@ -42,12 +45,22 @@ namespace Assets.Scripts.Interaction
 
         private void InputRotationEventListener(Quaternion arg0)
         {
-            _cameraHandler.RotateCamera(arg0);
+            if (!_inSelectionMode)
+            {
+                _cameraHandler.RotateCamera(arg0);
+            }
         }
 
         private void InputMovementEventListener(Vector3 arg0)
         {
-            _cameraHandler.MoveCamera(arg0);
+            if (_inSelectionMode)
+            {
+                _movementDuringSelection += arg0;
+            }
+            else
+            {
+                _cameraHandler.MoveCamera(arg0);
+            }
         }
 
         private void InputReleasedEventListener()
@@ -57,10 +70,14 @@ namespace Assets.Scripts.Interaction
                 interactObject.OnEndSelection(_interactArgsCreator.GetInteractArgs());
             }
             _currentSelectionObjects.Clear();
+            _movementDuringSelection = Vector3.zero;
+            _inSelectionMode = false;
         }
 
         private void InputPressedEventListener()
         {
+            _inSelectionMode = true;
+            _movementDuringSelection = Vector3.zero;
             _currentSelectionObjects.AddRange(_interactObjectHandler.GetCurrentSelectionObjects());
             foreach (var selectionObject in _currentSelectionObjects)
             {
@@ -72,7 +89,9 @@ namespace Assets.Scripts.Interaction
         {
             foreach (var selectionObject in _currentSelectionObjects)
             {
-                selectionObject.OnUpdateSelection(_interactArgsCreator.GetInteractArgs());
+                var interactArgs = _interactArgsCreator.GetInteractArgs();
+                interactArgs.Offset = _movementDuringSelection;
+                selectionObject.OnUpdateSelection(interactArgs);
             }
         }
 

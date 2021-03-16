@@ -11,11 +11,8 @@ public class Quest : ScriptableObject
     [SerializeField]
     private Entity _targetEntity = default;
     [SerializeField]
-    private Entity _targetDragEntity = default;
-    [SerializeField]
     private GameMode _questionMode = default;
 
-    public Entity TargetDragEntity => _targetDragEntity;
     public Entity GetTargetEntity() => _targetEntity;
     public GameMode GetQuestionMode() => _questionMode;
 }
