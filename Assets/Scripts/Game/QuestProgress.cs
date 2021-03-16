@@ -19,7 +19,7 @@ public class QuestProgress : MonoBehaviour, IQuestProgress, IGameEntities
         _questProgressEventListener.Add(args);
     }
 
-    public void Reset()
+    public void OnValidate()
     {
         _questEntityBhvrs.Clear();
 
