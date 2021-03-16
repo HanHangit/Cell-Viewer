@@ -7,7 +7,7 @@ public class GUI_FieldController : MonoBehaviour
 	[SerializeField]
 	private List<GUI_TextPanel> _textpanel = new List<GUI_TextPanel>();
 
-	public void Init(List<Player> players, Game.GameMode mode)
+	public void Init(List<Player> players, GameMode mode)
 	{
 		if (players.Count > 4)
 		{

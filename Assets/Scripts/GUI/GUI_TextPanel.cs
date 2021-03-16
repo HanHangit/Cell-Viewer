@@ -15,7 +15,7 @@ public class GUI_TextPanel : MonoBehaviour
 	private TextMeshProUGUI _pointText = default;
 
 
-	public void Init(Player player, Game.GameMode mode)
+	public void Init(Player player, GameMode mode)
 	{
 		_currentPlayer = player;
 		SetText(_pointText, 0);

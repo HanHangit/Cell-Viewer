@@ -23,9 +23,9 @@ public class TextContainer
 		return JsonConvert.DeserializeObject<List<string>>(File.ReadAllText(path));
 	}
 
-	public List<string> LoadData(Game.GameMode mode)
+	public List<string> LoadData(GameMode mode)
 	{
-		if (mode == Game.GameMode.Point)
+		if (mode == GameMode.Point)
 		{
 			return LoadData(Application.dataPath + POINT_MODE_PATH);
 		}

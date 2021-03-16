@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,18 +13,24 @@ public class Player
 	private string _text = default;
 
 	private IQuestProgress _questProgress;
-
-
-
 	public GenericEvent<PointArgs> PointChangedEvent = new GenericEvent<PointArgs>();
 	public GenericEvent<TextArgs> TextChangedEvent = new GenericEvent<TextArgs>();
-	private GenerateRandomText _txtGenerator;
+	private GenerateRandomQuest _questGenerator;
 
 	public Player(IQuestProgress progress)
 	{
 		_questProgress = progress;
+		_questProgress.AddQuestCompletedEventListener(QuestCompletedListener);
+
 		_points = 0;
 		_text = "";
+	}
+
+	private void QuestCompletedListener(QuestProgressArgs arg0)
+	{
+		AddPoint();
+		var quest = _questGenerator.GetRandomQuest();
+		SetNewQuest(quest.GetDescription());
 	}
 
 	public void StartGame(List<string> text)
@@ -33,8 +40,15 @@ public class Player
 		{
 			list.Add(item);
 		}
-		_txtGenerator = new GenerateRandomText(list);
-		ChangeText();
+		_questGenerator = new GenerateRandomQuest();
+		var quest = _questGenerator.GetRandomQuest();
+		SetNewQuest(quest.GetDescription());
+	}
+
+	private void SetNewQuest(string description)
+	{
+		_questProgress.SetNewQuest(_questGenerator.GetRandomQuest());
+		ChangeText(description);
 	}
 
 	public void AddPoint()
@@ -44,10 +58,10 @@ public class Player
 		PointChangedEvent.InvokeEvent(new PointArgs(oldPoints, _points));
 	}
 
-	public void ChangeText()
+	public void ChangeText(string txt)
 	{
 		var oldText = _text;
-		_text = _txtGenerator.GetRandomText();
+		_text = txt;
 		TextChangedEvent.InvokeEvent(new TextArgs(oldText, _text));
 	}
 

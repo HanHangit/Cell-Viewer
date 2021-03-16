@@ -17,22 +17,13 @@ public class GameManager : ASingleton<GameManager>
 	{
 		_fieldControllerInstance = Instantiate(_fieldControllerPrefab);
 		game = new Game();
-
+		
 		for (int i = 0; i < 4; i++)
 		{
 			game.AddPlayer(_questProgress[i]);
 		}
-
-		_fieldControllerInstance.Init(game.GetPlayerList(), Game.GameMode.Point);
+		
+		_fieldControllerInstance.Init(game.GetPlayerList(), GameMode.Point);
 		game.Start();
-	}
-
-	private void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.A))
-		{
-			var player = game.GetPlayerList()[1];
-			player.ChangeText();
-		}
 	}
 }

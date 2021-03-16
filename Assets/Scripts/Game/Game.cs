@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Game
 {
-	public enum GameMode {  Place, Point}
+
 	public List<Player> GetPlayerList() => _players;
 
 	private GameMode _currentMod;
