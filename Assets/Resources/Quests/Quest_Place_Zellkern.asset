@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90f5f6749fa26bf4dacb73c022b2735e, type: 3}
-  m_Name: Quest_Point_Zellkern
+  m_Name: Quest_Place_Zellkern
   m_EditorClassIdentifier: 
-  _description: Wo befindet sich der Zellkern?
+  _description: Bewege den Zellkern zum Dingens
   _targetEntity: {fileID: 11400000, guid: 2d4a331d6ad9f5641a01afe40db0e294, type: 2}
-  _targetDragEntity: {fileID: 0}
-  _questionMode: 1
+  _targetDragEntity: {fileID: 11400000, guid: b8536c15da3bffa4f8b781f88542eca5, type: 2}
+  _questionMode: 0

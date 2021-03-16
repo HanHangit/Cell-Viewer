@@ -19,8 +19,14 @@ namespace Assets.Scripts.Game
 
         public Quest_DragBhvr(Quest quest, IGameEntities gameEntities)
         {
-            _samePosition = new GameLogic_SamePosition(new GamePositionAdapter(gameEntities.GetEntityBhvr(quest.GetTargetEntity())), 4.0f);
+            _samePosition = new GameLogic_SamePosition(new GamePositionAdapter(gameEntities.GetEntityBhvr(quest.GetTargetEntity())), 0.1f);
             _samePosition.SetGameTask(this);
+            _samePosition.SetDragableObject(new GamePositionAdapter(gameEntities.GetEntityBhvr(quest.TargetDragEntity)));
+        }
+
+        public override void Update()
+        {
+            _samePosition.Update();
         }
 
         private class GamePositionAdapter : IObjectPosition

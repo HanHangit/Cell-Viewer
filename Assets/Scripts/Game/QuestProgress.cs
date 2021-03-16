@@ -19,11 +19,29 @@ public class QuestProgress : MonoBehaviour, IQuestProgress, IGameEntities
         _questProgressEventListener.Add(args);
     }
 
+    public void Reset()
+    {
+        _questEntityBhvrs.Clear();
+
+        _questEntityBhvrs.AddRange(FindObjectsOfType<QuestEntityBhvr>());
+    }
+
+    private void Update()
+    {
+        if (_currentQuestBhvr != null)
+        {
+            _currentQuestBhvr.Update();
+        }
+    }
+
     public void SetNewQuest(Quest q)
     {
-        _currentActiveQuest = q;
-        InitializeQuestBhvr(q);
-        InitializeEventListener();
+        if (q != null)
+        {
+            _currentActiveQuest = q;
+            InitializeQuestBhvr(q);
+            InitializeEventListener();
+        }
     }
 
     private void InitializeEventListener()

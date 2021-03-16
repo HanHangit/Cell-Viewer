@@ -23,5 +23,10 @@ namespace Assets.Scripts.Game
         {
             _questCompletedEvent.InvokeEvent(new QuestProgressArgs());
         }
+
+        public virtual void Update()
+        {
+
+        }
     }
 }

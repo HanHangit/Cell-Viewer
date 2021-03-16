@@ -44,7 +44,6 @@ namespace Assets.Scripts.Interaction
         {
             if (_gameTask != null)
             {
-
                 if (IsTargetReached())
                 {
                     _gameTask.OnTaskSuccess();
