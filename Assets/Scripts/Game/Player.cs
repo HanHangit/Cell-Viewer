@@ -30,25 +30,20 @@ public class Player
 	{
 		AddPoint();
 		var quest = _questGenerator.GetRandomQuest();
-		SetNewQuest(quest.GetDescription());
+		SetNewQuest(quest);
 	}
 
-	public void StartGame(List<string> text)
+	public void StartGame()
 	{
-		var list = new List<string>();
-		foreach (var item in text)
-		{
-			list.Add(item);
-		}
 		_questGenerator = new GenerateRandomQuest();
 		var quest = _questGenerator.GetRandomQuest();
-		SetNewQuest(quest.GetDescription());
+		SetNewQuest(quest);
 	}
 
-	private void SetNewQuest(string description)
+	private void SetNewQuest(Quest quest)
 	{
-		_questProgress.SetNewQuest(_questGenerator.GetRandomQuest());
-		ChangeText(description);
+		_questProgress.SetNewQuest(quest);
+		ChangeText(quest.GetDescription());
 	}
 
 	public void AddPoint()

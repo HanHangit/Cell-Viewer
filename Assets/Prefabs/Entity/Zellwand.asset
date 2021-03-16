@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90f5f6749fa26bf4dacb73c022b2735e, type: 3}
-  m_Name: Quest 1
+  m_Script: {fileID: 11500000, guid: d7758f42c9b6fcf478cbd2aad5b8488b, type: 3}
+  m_Name: Zellwand
   m_EditorClassIdentifier: 
-  _description: 
-  _targetEntity: {fileID: 0}

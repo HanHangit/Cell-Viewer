@@ -27,12 +27,10 @@ public class Game
 
 	public void Start()
 	{
-		TextContainer textContainer = new TextContainer();
-		var text= textContainer.LoadData(_currentMod);
 
 		foreach (var player in _players)
 		{
-			player.StartGame(text);
+			player.StartGame();
 		}
 	}
 }
