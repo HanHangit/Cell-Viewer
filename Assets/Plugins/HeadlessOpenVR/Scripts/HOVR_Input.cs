@@ -5,7 +5,7 @@ using UnityEngine;
 using Valve.VR;
 
 namespace HeadlessOpenVR
-{   
+{
     public class HOVR_Input
     {
         private static readonly uint SIZE_OF_VR_CONTROLLER_STATE_T = (uint)System.Runtime.InteropServices.Marshal.SizeOf<VRControllerState_t>();
@@ -20,24 +20,29 @@ namespace HeadlessOpenVR
             _oldState = _curState;
             if (!vrSystem.GetControllerState(deviceId, ref _curState, SIZE_OF_VR_CONTROLLER_STATE_T))
             {
-                if(!_displayedWarning)
+                if (!_displayedWarning)
                 {
                     Debug.LogWarning("Controller State could not be read.");
                     _displayedWarning = true;
                 }
             }
 
-            else if(_displayedWarning)
+            else if (_displayedWarning)
             {
                 _displayedWarning = false;
             }
         }
 
         public static bool IsButtonClicked(EVRButtonId buttonId)
-        {   
+        {
             var wasPressed = ContainsButton(_oldState.ulButtonPressed, buttonId);
             var isPressed = ContainsButton(_curState.ulButtonPressed, buttonId);
             return !wasPressed && isPressed;
+        }
+
+        public static Vector2 GetTrackpadAxis()
+        {
+            return new Vector2(_curState.rAxis0.x, _curState.rAxis0.y);
         }
 
         public static bool IsButtonDown(EVRButtonId buttonId)

@@ -12,8 +12,23 @@ namespace Assets.Scripts.Interaction.Devices
 {
     public class VRControllerDevice : InputInteractionHandlerFactory, InputInteractionHandler
     {
-        public UnityEvent InteractionPressedEvent = new UnityEvent();
-        public UnityEvent InteractionReleasedEvent = new UnityEvent();
+        private UnityEvent InteractionPressedEvent = new UnityEvent();
+        private UnityEvent InteractionReleasedEvent = new UnityEvent();
+        private UnityEvent<Vector3> MovementEvent = new MovementUnityEvent();
+        private UnityEvent<Quaternion> RotationEvent = new QuaternionUnityEvent();
+
+        [SerializeField]
+        private Camera _camera = default;
+
+        private class MovementUnityEvent : UnityEvent<Vector3>
+        {
+
+        }
+
+        private class QuaternionUnityEvent : UnityEvent<Quaternion>
+        {
+
+        }
 
         private void Update()
         {
@@ -25,6 +40,39 @@ namespace Assets.Scripts.Interaction.Devices
             {
                 InteractionReleasedEvent?.Invoke();
             }
+
+            MovementEvent?.Invoke(GetTrackPadMovement());
+        }
+
+        private Camera GetCurrentCamera()
+        {
+            return _camera;
+        }
+
+        private Vector3 GetTrackPadMovement()
+        {
+            Vector2 trackPadAxis = HOVR_Input.GetTrackpadAxis();
+            Vector3 movement = Vector3.zero;
+            const float MARGIN = 0.1f;
+
+            if (trackPadAxis.x > MARGIN)
+            {
+                movement += GetCurrentCamera().transform.right * trackPadAxis.x;
+            }
+            if (trackPadAxis.x < MARGIN)
+            {
+                movement += GetCurrentCamera().transform.right * trackPadAxis.x;
+            }
+            if (trackPadAxis.y > MARGIN)
+            {
+                movement += GetCurrentCamera().transform.up * trackPadAxis.y;
+            }
+            if (trackPadAxis.y < MARGIN)
+            {
+                movement += GetCurrentCamera().transform.up * trackPadAxis.y;
+            }
+
+            return movement * 0.005f;
         }
 
         public override InputInteractionHandler GetInteractionHandler()
@@ -44,22 +92,22 @@ namespace Assets.Scripts.Interaction.Devices
 
         public void AddInteractionPressedEventListener(UnityAction callback)
         {
-            throw new NotImplementedException();
+            InteractionPressedEvent.AddListener(callback);
         }
 
         public void AddInteractionReleasedEventListener(UnityAction callback)
         {
-            throw new NotImplementedException();
+            InteractionReleasedEvent.AddListener(callback);
         }
 
         public void AddMovementEventListener(UnityAction<Vector3> callback)
         {
-            throw new NotImplementedException();
+            MovementEvent.AddListener(callback);
         }
 
         public void AddRotationEventListener(UnityAction<Quaternion> callback)
         {
-            throw new NotImplementedException();
+            RotationEvent.AddListener(callback);
         }
     }
 }

@@ -55,7 +55,7 @@ namespace HeadlessOpenVR
             if (_tracker.Count == 0)
                 return;
 
-            //UpdateDevices();
+            UpdateDevices();
         }
 
         private void InitOpenVrDevices()
