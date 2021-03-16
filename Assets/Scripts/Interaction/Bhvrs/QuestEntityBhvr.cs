@@ -24,7 +24,10 @@ namespace Assets.Scripts.Interaction.Bhvrs
 
         public Vector3 GetTargetDragPosition()
         {
-            return _targetDragPosition.position;
+            if (_targetDragPosition != null)
+                return _targetDragPosition.position;
+            else
+                return transform.position;
         }
     }
 }

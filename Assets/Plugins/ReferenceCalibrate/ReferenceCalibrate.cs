@@ -25,7 +25,7 @@ public class ReferenceCalibrate : MonoBehaviour
     [SerializeField]
     private bool _loadFileOnStart = true;
 
-    private void Start()
+    private void Awake()
     {
         if (_loadFileOnStart)
             ApplyRegistration(LoadFromFile(_fileName));

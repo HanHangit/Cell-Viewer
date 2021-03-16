@@ -7,7 +7,6 @@ using Assets.Scripts.Interaction;
 using Assets.Scripts.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
-using Valve.VR;
 
 namespace Assets.Scripts.Movement
 {

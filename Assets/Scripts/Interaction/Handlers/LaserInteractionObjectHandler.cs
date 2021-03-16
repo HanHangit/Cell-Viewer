@@ -51,6 +51,22 @@ namespace Assets.Scripts.Interaction
             }
         }
 
+        private RaycastHit CalculateNearestHit(RaycastHit[] hits)
+        {
+            float range = float.MaxValue;
+            RaycastHit result = default;
+            foreach (var item in hits)
+            {
+                if(item.distance < range)
+                {
+                    result = item;
+                    range = item.distance;
+                }
+            }
+
+            return result;
+        }
+
         private void HoverUpdate()
         {
             foreach (var interactObject in _currentHoverObjects)

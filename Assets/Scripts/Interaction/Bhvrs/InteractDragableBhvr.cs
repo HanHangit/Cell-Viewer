@@ -17,6 +17,11 @@ namespace Assets.Scripts.Interaction.Handlers
 
         private UnityEvent OnSelectionEvent = new UnityEvent();
 
+        private void OnValidate()
+        {
+            _root = GetComponent<Transform>();
+        }
+
         public void OnBeginSelection(InteractArgs args)
         {
             _offset = Vector3.Distance(args.OriginPosition, _root.position);
