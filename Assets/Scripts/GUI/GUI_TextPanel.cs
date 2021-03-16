@@ -21,6 +21,7 @@ public class GUI_TextPanel : MonoBehaviour
 		SetText(_pointText, 0);
 		SetText(_gameModeText, mode.ToString());
 		SetText(_questionText, "Will be initialize ... Please wait");
+
 		player.PointChangedEvent.AddEventListener(PointChangeListener);
 		player.TextChangedEvent.AddEventListener(TextChangeListener);
 	}

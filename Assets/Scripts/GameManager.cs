@@ -10,15 +10,19 @@ public class GameManager : ASingleton<GameManager>
 	[SerializeField]
 	private GUI_FieldController _fieldControllerPrefab = default;
 	private GUI_FieldController _fieldControllerInstance = default;
+	[SerializeField]
+	private List<QuestProgress> _questProgress = default;
 
 	protected override void SingletonAwake()
 	{
 		_fieldControllerInstance = Instantiate(_fieldControllerPrefab);
 		game = new Game();
-		game.AddPlayer();
-		game.AddPlayer();
-		game.AddPlayer();
-		game.AddPlayer();
+
+		for (int i = 0; i < 4; i++)
+		{
+			game.AddPlayer(_questProgress[i]);
+		}
+
 		_fieldControllerInstance.Init(game.GetPlayerList(), Game.GameMode.Point);
 		game.Start();
 	}

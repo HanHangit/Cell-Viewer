@@ -20,9 +20,9 @@ public class Game
 	}
 
 
-	public void AddPlayer()
+	public void AddPlayer(IQuestProgress progress)
 	{
-		_players.Add(new Player());
+		_players.Add(new Player(progress));
 	}
 
 	public void Start()

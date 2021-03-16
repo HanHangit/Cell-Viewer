@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player
 {
@@ -10,12 +11,17 @@ public class Player
 	[SerializeField]
 	private string _text = default;
 
+	private IQuestProgress _questProgress;
+
+
+
 	public GenericEvent<PointArgs> PointChangedEvent = new GenericEvent<PointArgs>();
 	public GenericEvent<TextArgs> TextChangedEvent = new GenericEvent<TextArgs>();
 	private GenerateRandomText _txtGenerator;
 
-	public Player()
+	public Player(IQuestProgress progress)
 	{
+		_questProgress = progress;
 		_points = 0;
 		_text = "";
 	}
@@ -68,4 +74,6 @@ public class Player
 			Newtext = newtext;
 		}
 	}
+
+
 }
