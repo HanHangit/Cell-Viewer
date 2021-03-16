@@ -8,6 +8,7 @@ using Assets.Scripts.Interaction.Bhvrs;
 using Assets.Scripts.Interaction.Bhvrs.Game;
 using Assets.Scripts.Interaction.Handlers;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Assets.Scripts.Game
 {
@@ -19,6 +20,7 @@ namespace Assets.Scripts.Game
         public Quest_DragBhvr(Quest quest, IGameEntities gameEntities)
         {
             _samePosition = new GameLogic_SamePosition(new GamePositionAdapter(gameEntities.GetEntityBhvr(quest.GetTargetEntity())), 4.0f);
+            _samePosition.SetGameTask(this);
         }
 
         private class GamePositionAdapter : IObjectPosition
@@ -34,10 +36,5 @@ namespace Assets.Scripts.Game
                 return _obj.transform.position;
             }
         }
-    }
-
-    public interface IGameEntities
-    {
-        QuestEntityBhvr GetEntityBhvr(Entity entity);
     }
 }

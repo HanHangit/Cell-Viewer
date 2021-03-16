@@ -12,15 +12,29 @@ public class QuestProgress : MonoBehaviour, IQuestProgress, IGameEntities
     private Quest _currentActiveQuest = default;
     private QuestBhvr _currentQuestBhvr = default;
 
+    private List<UnityAction<QuestProgressArgs>> _questProgressEventListener = new List<UnityAction<QuestProgressArgs>>();
+
     public void AddQuestCompletedEventListener(UnityAction<QuestProgressArgs> args)
     {
-
+        _questProgressEventListener.Add(args);
     }
 
     public void SetNewQuest(Quest q)
     {
         _currentActiveQuest = q;
         InitializeQuestBhvr(q);
+        InitializeEventListener();
+    }
+
+    private void InitializeEventListener()
+    {
+        if (_currentQuestBhvr != null)
+        {
+            foreach (UnityAction<QuestProgressArgs> action in _questProgressEventListener)
+            {
+                _currentQuestBhvr.AddQuestCompletedEventListener(action);
+            }
+        }
     }
 
     private void InitializeQuestBhvr(Quest q)
@@ -31,6 +45,7 @@ public class QuestProgress : MonoBehaviour, IQuestProgress, IGameEntities
                 _currentQuestBhvr = new Quest_DragBhvr(q, this);
                 break;
             case GameMode.Point:
+                _currentQuestBhvr = new Quest_PointBhvr(q, this);
                 break;
         }
     }
@@ -48,4 +63,3 @@ public class QuestProgress : MonoBehaviour, IQuestProgress, IGameEntities
         }
     }
 }
-
