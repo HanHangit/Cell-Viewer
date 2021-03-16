@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _questEntityBhvrs:
-  - {fileID: 1980215820}
+  - {fileID: 0}
   - {fileID: 548019114}
   - {fileID: 1607253641}
   - {fileID: 2013679658}
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _questEntityBhvrs:
-  - {fileID: 1980215820}
+  - {fileID: 0}
   - {fileID: 548019114}
   - {fileID: 1607253641}
   - {fileID: 2013679658}
@@ -435,6 +435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entity: {fileID: 11400000, guid: b9a47415d0c419d46bb6ccbb10177952, type: 2}
+  _targetDragPosition: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1375,6 +1376,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entity: {fileID: 11400000, guid: 2d4a331d6ad9f5641a01afe40db0e294, type: 2}
+  _targetDragPosition: {fileID: 1980215819}
 --- !u!1 &1767072438
 GameObject:
   m_ObjectHideFlags: 0
@@ -1405,7 +1407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _questEntityBhvrs:
-  - {fileID: 1980215820}
+  - {fileID: 0}
   - {fileID: 548019114}
   - {fileID: 1607253641}
   - {fileID: 2013679658}
@@ -2021,7 +2023,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _questEntityBhvrs:
-  - {fileID: 1980215820}
+  - {fileID: 0}
   - {fileID: 548019114}
   - {fileID: 1607253641}
   - {fileID: 2013679658}
@@ -2178,8 +2180,6 @@ GameObject:
   - component: {fileID: 1980215819}
   - component: {fileID: 1980215823}
   - component: {fileID: 1980215822}
-  - component: {fileID: 1980215821}
-  - component: {fileID: 1980215820}
   m_Layer: 8
   m_Name: Capsule (1)
   m_TagString: Untagged
@@ -2201,33 +2201,6 @@ Transform:
   m_Father: {fileID: 1443035970}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1980215820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1980215818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccd4b5d7f388417496a6c3977646edbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _entity: {fileID: 11400000, guid: b8536c15da3bffa4f8b781f88542eca5, type: 2}
---- !u!136 &1980215821
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1980215818}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1980215822
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2459,6 +2432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entity: {fileID: 11400000, guid: 2c0a0bf0177635c41af6b5dfd97c32cc, type: 2}
+  _targetDragPosition: {fileID: 0}
 --- !u!1 &2071762672
 GameObject:
   m_ObjectHideFlags: 0

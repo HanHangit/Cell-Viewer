@@ -19,9 +19,10 @@ namespace Assets.Scripts.Game
 
         public Quest_DragBhvr(Quest quest, IGameEntities gameEntities)
         {
-            _samePosition = new GameLogic_SamePosition(new GamePositionAdapter(gameEntities.GetEntityBhvr(quest.GetTargetEntity())), 0.1f);
+            var targetEntity = gameEntities.GetEntityBhvr(quest.GetTargetEntity());
+            _samePosition = new GameLogic_SamePosition(new GamePositionAdapter(targetEntity), 0.05f);
             _samePosition.SetGameTask(this);
-            _samePosition.SetDragableObject(new GamePositionAdapter(gameEntities.GetEntityBhvr(quest.TargetDragEntity)));
+            _samePosition.SetDragableObject(new GamePositionAdapter(targetEntity, true));
         }
 
         public override void Update()
@@ -32,14 +33,24 @@ namespace Assets.Scripts.Game
         private class GamePositionAdapter : IObjectPosition
         {
             private QuestEntityBhvr _obj = null;
-            public GamePositionAdapter(QuestEntityBhvr gameObj)
+            private bool _isTarget = false;
+
+            public GamePositionAdapter(QuestEntityBhvr gameObj, bool isTarget = false)
             {
                 _obj = gameObj;
+                _isTarget = isTarget;
             }
 
             public Vector3 GetPosition()
             {
-                return _obj.transform.position;
+                if (_isTarget)
+                {
+                    return _obj.GetPosition();
+                }
+                else
+                {
+                    return _obj.GetTargetDragPosition();
+                }
             }
         }
     }

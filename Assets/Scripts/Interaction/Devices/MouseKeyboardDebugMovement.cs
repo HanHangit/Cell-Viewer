@@ -58,18 +58,28 @@ namespace Assets.Scripts.Movement
 
         private void UpdateMouseMovementEvents()
         {
-            var moveDelta = CalculateWorldMovement();
             var keyboardMovement = CalculateKeyboardMovement();
+            var rotationMovement = CalculateKeyboardRotation();
 
-            if (moveDelta != Vector3.zero)
-            {
-                if (Input.GetMouseButton(1))
-                {
-                    RotationEvent?.Invoke(CalculateRotation());
-                }
-                //else if (Input.GetMouseButton(0))
-            }
+            RotationEvent?.Invoke(rotationMovement);
+
+
             MovementEvent?.Invoke(keyboardMovement);
+        }
+
+        private Quaternion CalculateKeyboardRotation()
+        {
+            var result = Quaternion.identity;
+            if (Input.GetKey(KeyCode.E))
+            {
+                result *= Quaternion.AngleAxis(20.0f * Time.deltaTime, _camera.transform.up);
+            }
+            else if (Input.GetKey(KeyCode.Q))
+            {
+                result *= Quaternion.AngleAxis(-20.0f * Time.deltaTime, _camera.transform.up);
+            }
+
+            return result;
         }
 
         private Vector3 CalculateKeyboardMovement()
