@@ -1,9 +1,19 @@
 fileFormatVersion: 2
 guid: 957413f9bbe2f4d448d5e97f55c96a6c
 ModelImporter:
-  serializedVersion: 19301
+  serializedVersion: 19300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cell_Centrioles_2_mt
+    second: {fileID: 2100000, guid: c40db97bd5a72dd4e801d53e16076e97, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cell_Centrioles_mt
+    second: {fileID: 2100000, guid: b69f6cc41a640e0469fca44d1ea4d433, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -43,7 +53,6 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
-    fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1

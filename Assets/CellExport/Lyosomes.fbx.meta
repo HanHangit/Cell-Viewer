@@ -1,9 +1,14 @@
 fileFormatVersion: 2
 guid: bcecc5b3a205ec342a9f59018f0d2974
 ModelImporter:
-  serializedVersion: 19301
+  serializedVersion: 19300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cell_Lysosome_1_mt
+    second: {fileID: 2100000, guid: d828d37c48885b84195a3a93d14f9397, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -43,7 +48,6 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
-    fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1

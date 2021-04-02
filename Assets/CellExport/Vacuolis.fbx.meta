@@ -1,9 +1,14 @@
 fileFormatVersion: 2
 guid: d3c53628888c7a0479702ab54bd3d342
 ModelImporter:
-  serializedVersion: 19301
+  serializedVersion: 19300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cell_Vacuole_mt
+    second: {fileID: 2100000, guid: efdff8fc0a6572f4ba1b926b0bfb3361, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -43,7 +48,6 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
-    fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1

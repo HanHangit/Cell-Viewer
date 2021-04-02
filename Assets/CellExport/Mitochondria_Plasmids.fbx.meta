@@ -1,9 +1,19 @@
 fileFormatVersion: 2
 guid: d7f9dff91b1599c41a72fd061e08985a
 ModelImporter:
-  serializedVersion: 19301
+  serializedVersion: 19300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cytskelet_Mitoch_Plasmid_DNA_mt
+    second: {fileID: 2100000, guid: 36aa1a9deebbc0c44a3c5ea9565676e7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mitoch_Plasmid_mt
+    second: {fileID: 2100000, guid: 35865ffc8ed684049b19eba21664c7fb, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -43,7 +53,6 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
-    fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1

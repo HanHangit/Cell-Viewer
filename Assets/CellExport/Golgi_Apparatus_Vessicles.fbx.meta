@@ -1,9 +1,14 @@
 fileFormatVersion: 2
 guid: 922e7a51dc94c8e499ee02443fef0e07
 ModelImporter:
-  serializedVersion: 19301
+  serializedVersion: 19300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cell_Golgi_mt
+    second: {fileID: 2100000, guid: daca86d8eb1a5094e860b7819061b4ba, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -43,7 +48,6 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
-    fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
