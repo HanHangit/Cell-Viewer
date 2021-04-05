@@ -13,6 +13,9 @@ namespace Assets.Scripts.Interaction.Handlers
     {
         [SerializeField]
         private Transform _root = default;
+
+        private Vector3 _offsetFromCollider = Vector3.zero;
+
         private float _offset = 0.0f;
 
         private UnityEvent OnSelectionEvent = new UnityEvent();
@@ -24,7 +27,8 @@ namespace Assets.Scripts.Interaction.Handlers
 
         public void OnBeginSelection(InteractArgs args)
         {
-            _offset = Vector3.Distance(args.OriginPosition, _root.position);
+            _offset = Vector3.Distance(args.OriginPosition, args.HitPosition);
+            _offsetFromCollider = _root.position - args.HitPosition;
             if (OnSelectionEvent != null)
             {
                 OnSelectionEvent.Invoke();
@@ -42,7 +46,8 @@ namespace Assets.Scripts.Interaction.Handlers
             {
                 moveOffset = Vector3.Dot(args.OriginLookDirection, args.Offset);
             }
-            _root.position = args.OriginPosition + args.OriginLookDirection * _offset + args.OriginLookDirection * moveOffset;
+
+            _root.position = args.OriginPosition + args.OriginLookDirection * _offset + args.OriginLookDirection * moveOffset + _offsetFromCollider;
         }
 
         public void AddOnSelectionEventListener(UnityAction action)

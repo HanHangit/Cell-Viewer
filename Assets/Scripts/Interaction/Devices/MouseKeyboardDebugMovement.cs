@@ -17,6 +17,13 @@ namespace Assets.Scripts.Movement
         private UnityEvent<Vector3> MovementEvent = new MovementUnityEvent();
         private UnityEvent<Quaternion> RotationEvent = new QuaternionUnityEvent();
 
+        [SerializeField]
+        private float _rotationSpeed = 20.0f;
+        [SerializeField]
+        private float _movementSpeed = 0.01f;
+        [SerializeField]
+        private float _scrollSpeed = 0.1f;
+
         private class MovementUnityEvent : UnityEvent<Vector3>
         {
 
@@ -71,11 +78,11 @@ namespace Assets.Scripts.Movement
             var result = Quaternion.identity;
             if (Input.GetKey(KeyCode.E))
             {
-                result *= Quaternion.AngleAxis(20.0f * Time.deltaTime, _camera.transform.up);
+                result *= Quaternion.AngleAxis(_rotationSpeed * Time.deltaTime, _camera.transform.up);
             }
             else if (Input.GetKey(KeyCode.Q))
             {
-                result *= Quaternion.AngleAxis(-20.0f * Time.deltaTime, _camera.transform.up);
+                result *= Quaternion.AngleAxis(-_rotationSpeed * Time.deltaTime, _camera.transform.up);
             }
 
             return result;
@@ -102,7 +109,7 @@ namespace Assets.Scripts.Movement
                 result += _camera.transform.up * -1;
             }
 
-            return result.normalized * 0.01f;
+            return result.normalized * _movementSpeed;
         }
 
         private void UpdateMouseScrollEvents()
@@ -111,7 +118,7 @@ namespace Assets.Scripts.Movement
 
             if (scrollDelta != Vector2.zero)
             {
-                MovementEvent?.Invoke(_deviceRoot.forward * scrollDelta.y * 0.1f);
+                MovementEvent?.Invoke(_deviceRoot.forward * scrollDelta.y * _scrollSpeed);
             }
         }
 

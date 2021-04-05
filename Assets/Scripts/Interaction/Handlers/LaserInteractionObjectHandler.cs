@@ -24,6 +24,8 @@ namespace Assets.Scripts.Interaction
         [SerializeField]
         private Transform _rayOrigin = default;
 
+        private RaycastHit _currentHit = default;
+
         public class InteractEvent : UnityEvent<List<InteractHoverObject>> { }
 
         public UnityEvent<List<InteractHoverObject>> OnHoverBeginEvent = new InteractEvent();
@@ -41,7 +43,7 @@ namespace Assets.Scripts.Interaction
             var hits = Physics.RaycastAll(ray, 1000, _collisionMask);
             if (hits.Any())
             {
-                OnHit(hits[0]);
+                OnHit(CalculateNearestHit(hits));
                 _lineRenderer.material.color = _detectionColor;
             }
             else
@@ -57,7 +59,7 @@ namespace Assets.Scripts.Interaction
             RaycastHit result = default;
             foreach (var item in hits)
             {
-                if(item.distance < range)
+                if (item.distance < range)
                 {
                     result = item;
                     range = item.distance;
@@ -129,6 +131,11 @@ namespace Assets.Scripts.Interaction
 
         private void OnHit(RaycastHit? hit)
         {
+            if (hit.HasValue)
+            {
+                _currentHit = hit.Value;
+            }
+
             var hoverObjects = hit?.collider.GetComponents<InteractHoverObject>();
             var selectionObjects = hit?.collider.GetComponents<InteractSelectionObject>();
             SetHoverObjects(hoverObjects);
@@ -165,7 +172,8 @@ namespace Assets.Scripts.Interaction
             return new InteractArgs
             {
                 OriginPosition = _rayOrigin.position,
-                OriginLookDirection = _rayOrigin.forward
+                OriginLookDirection = _rayOrigin.forward,
+                HitPosition = _currentHit.point
             };
         }
     }

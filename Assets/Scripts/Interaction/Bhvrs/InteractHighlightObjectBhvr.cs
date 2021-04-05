@@ -25,6 +25,11 @@ namespace Assets.Scripts.Interaction
             _oldColor = _meshRenderer.material.color;
         }
 
+        private void OnValidate()
+        {
+            _meshRenderer = GetComponent<MeshRenderer>();
+        }
+
         public void OnHoverBegin(InteractArgs args)
         {
             _isHovered = true;
