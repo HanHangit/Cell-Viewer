@@ -18,11 +18,6 @@ namespace Assets.Scripts.Interaction.Devices
         private UnityEvent<Quaternion> RotationEvent = new QuaternionUnityEvent();
         private MovementMode _movementMode = MovementMode.Up;
 
-        [SerializeField]
-        private Transform _offsetTransform = default;
-        [SerializeField]
-        private Transform _offsetRotation = default;
-
         private enum MovementMode
         {
             Up,
@@ -32,11 +27,6 @@ namespace Assets.Scripts.Interaction.Devices
 
         [SerializeField]
         private Camera _camera = default;
-
-        private Vector3 _camStartPos = Vector3.zero;
-        private Vector3 _offsetStartPos = Vector3.zero;
-        private Quaternion _startQuaternion = Quaternion.identity;
-        private Quaternion _offsetStartQuaternion = Quaternion.identity;
 
         private class MovementUnityEvent : UnityEvent<Vector3>
         {
@@ -48,21 +38,8 @@ namespace Assets.Scripts.Interaction.Devices
 
         }
 
-        private void Start()
-        {
-            _camStartPos = _camera.transform.position;
-            _offsetStartPos = _offsetTransform.position;
-            _startQuaternion = _camera.transform.rotation;
-            _offsetStartQuaternion = _offsetRotation.rotation;
-        }
-
         private void Update()
         {
-            _offsetTransform.position = _offsetStartPos + (_camera.transform.position - _camStartPos);
-            _offsetRotation.rotation = Quaternion.Euler(_offsetStartQuaternion.eulerAngles.x + (_camera.transform.rotation.eulerAngles.x - _startQuaternion.eulerAngles.x),
-                _offsetStartQuaternion.eulerAngles.y + (_camera.transform.rotation.eulerAngles.y - _startQuaternion.eulerAngles.y),
-                _offsetStartQuaternion.eulerAngles.z + (_camera.transform.rotation.eulerAngles.z - _startQuaternion.eulerAngles.z));
-
             if (HOVR_Input.IsButtonClicked(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger))
             {
                 InteractionPressedEvent?.Invoke();
