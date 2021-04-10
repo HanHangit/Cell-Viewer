@@ -10,56 +10,100 @@ namespace HeadlessOpenVR
     {
         private static readonly uint SIZE_OF_VR_CONTROLLER_STATE_T = (uint)System.Runtime.InteropServices.Marshal.SizeOf<VRControllerState_t>();
 
-        private static VRControllerState_t _oldState;
-        private static VRControllerState_t _curState;
-
+        private static Dictionary<uint, InputDevice> _inputDevices = new Dictionary<uint, InputDevice>();
         private static bool _displayedWarning = false;
 
         public static void Update(CVRSystem vrSystem, uint deviceId)
         {
-            _oldState = _curState;
-            if (!vrSystem.GetControllerState(deviceId, ref _curState, SIZE_OF_VR_CONTROLLER_STATE_T))
+            if (!_inputDevices.ContainsKey(deviceId))
             {
-                if (!_displayedWarning)
+                _inputDevices.Add(deviceId, new InputDevice());
+            }
+
+            _inputDevices[deviceId].Update(vrSystem, deviceId);
+        }
+
+        public static bool IsButtonClicked(EVRButtonId buttonId, uint deviceID)
+        {
+            return GetInputDevice(deviceID)?.IsButtonClicked(buttonId) ?? false;
+        }
+
+        private static InputDevice GetInputDevice(uint deviceID)
+        {
+            if (!_inputDevices.ContainsKey(deviceID))
+            {
+                return null;
+            }
+
+            return _inputDevices[deviceID];
+        }
+
+        public static Vector2 GetTrackpadAxis(uint deviceID)
+        {
+            return GetInputDevice(deviceID)?.GetTrackpadAxis() ?? Vector2.zero;
+        }
+
+        public static bool IsButtonDown(EVRButtonId buttonId, uint deviceID)
+        {
+            return GetInputDevice(deviceID)?.IsButtonDown(buttonId) ?? false;
+        }
+
+        public static bool IsButtonReleased(EVRButtonId buttonId, uint deviceID)
+        {
+            return GetInputDevice(deviceID)?.IsButtonReleased(buttonId) ?? false;
+        }
+
+        private class InputDevice
+        {
+            private VRControllerState_t _oldState;
+            private VRControllerState_t _curState;
+
+            public void Update(CVRSystem vrSystem, uint deviceId)
+            {
+                _oldState = _curState;
+                if (!vrSystem.GetControllerState(deviceId, ref _curState, SIZE_OF_VR_CONTROLLER_STATE_T))
                 {
-                    Debug.LogWarning("Controller State could not be read.");
-                    _displayedWarning = true;
+                    if (!_displayedWarning)
+                    {
+                        Debug.LogWarning("Controller State could not be read.");
+                        _displayedWarning = true;
+                    }
+                }
+
+                else if (_displayedWarning)
+                {
+                    _displayedWarning = false;
                 }
             }
 
-            else if (_displayedWarning)
+            public bool IsButtonClicked(EVRButtonId buttonId)
             {
-                _displayedWarning = false;
+                var wasPressed = ContainsButton(_oldState.ulButtonPressed, buttonId);
+                var isPressed = ContainsButton(_curState.ulButtonPressed, buttonId);
+                return !wasPressed && isPressed;
             }
-        }
 
-        public static bool IsButtonClicked(EVRButtonId buttonId)
-        {
-            var wasPressed = ContainsButton(_oldState.ulButtonPressed, buttonId);
-            var isPressed = ContainsButton(_curState.ulButtonPressed, buttonId);
-            return !wasPressed && isPressed;
-        }
+            public Vector2 GetTrackpadAxis()
+            {
+                return new Vector2(_curState.rAxis0.x, _curState.rAxis0.y);
+            }
 
-        public static Vector2 GetTrackpadAxis()
-        {
-            return new Vector2(_curState.rAxis0.x, _curState.rAxis0.y);
-        }
+            public bool IsButtonDown(EVRButtonId buttonId)
+            {
+                return ContainsButton(_curState.ulButtonPressed, buttonId);
+            }
 
-        public static bool IsButtonDown(EVRButtonId buttonId)
-        {
-            return ContainsButton(_curState.ulButtonPressed, buttonId);
-        }
+            public bool IsButtonReleased(EVRButtonId buttonId)
+            {
+                var wasPressed = ContainsButton(_oldState.ulButtonPressed, buttonId);
+                var isPressed = ContainsButton(_curState.ulButtonPressed, buttonId);
+                return wasPressed && !isPressed;
+            }
 
-        public static bool IsButtonReleased(EVRButtonId buttonId)
-        {
-            var wasPressed = ContainsButton(_oldState.ulButtonPressed, buttonId);
-            var isPressed = ContainsButton(_curState.ulButtonPressed, buttonId);
-            return wasPressed && !isPressed;
-        }
-
-        private static bool ContainsButton(ulong buttonMask, EVRButtonId buttonId)
-        {
-            return (buttonMask & (1UL << ((int)buttonId))) != 0L;
+            private bool ContainsButton(ulong buttonMask, EVRButtonId buttonId)
+            {
+                return (buttonMask & (1UL << ((int)buttonId))) != 0L;
+            }
         }
     }
 }

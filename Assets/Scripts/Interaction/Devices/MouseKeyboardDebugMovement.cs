@@ -175,5 +175,10 @@ namespace Assets.Scripts.Movement
         {
             RotationEvent.AddListener(callback);
         }
+
+        public int GetIndex()
+        {
+            return 0;
+        }
     }
 }

@@ -157,8 +157,7 @@ namespace HeadlessOpenVR
             for (int i = 0; i < _tracker.Count; i++)
             {
                 int index = _tracker[i].DeviceId;
-
-                if (index == -1)
+                if (index < 0)
                     continue;
 
                 var pose = _allPoses[index];

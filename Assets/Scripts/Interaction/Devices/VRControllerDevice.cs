@@ -18,15 +18,15 @@ namespace Assets.Scripts.Interaction.Devices
         private UnityEvent<Quaternion> RotationEvent = new QuaternionUnityEvent();
         private MovementMode _movementMode = MovementMode.Up;
 
+        [SerializeField]
+        private HOVR_Tracker _tracker = default;
+
         private enum MovementMode
         {
             Up,
             Forward,
             Rotation
         }
-
-        [SerializeField]
-        private Camera _camera = default;
 
         private class MovementUnityEvent : UnityEvent<Vector3>
         {
@@ -40,15 +40,15 @@ namespace Assets.Scripts.Interaction.Devices
 
         private void Update()
         {
-            if (HOVR_Input.IsButtonClicked(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger))
+            if (HOVR_Input.IsButtonClicked(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger, (uint)_tracker.DeviceId))
             {
                 InteractionPressedEvent?.Invoke();
             }
-            if (HOVR_Input.IsButtonReleased(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger))
+            if (HOVR_Input.IsButtonReleased(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger, (uint)_tracker.DeviceId))
             {
                 InteractionReleasedEvent?.Invoke();
             }
-            if (HOVR_Input.IsButtonClicked(Valve.VR.EVRButtonId.k_EButton_Grip))
+            if (HOVR_Input.IsButtonClicked(Valve.VR.EVRButtonId.k_EButton_Grip, (uint)_tracker.DeviceId))
             {
                 if (_movementMode == MovementMode.Rotation)
                 {
@@ -64,14 +64,9 @@ namespace Assets.Scripts.Interaction.Devices
             RotationEvent?.Invoke(GetTrackRotation());
         }
 
-        private Camera GetCurrentCamera()
-        {
-            return _camera;
-        }
-
         private Quaternion GetTrackRotation()
         {
-            Vector2 trackPadAxis = HOVR_Input.GetTrackpadAxis();
+            Vector2 trackPadAxis = HOVR_Input.GetTrackpadAxis((uint)_tracker.DeviceId);
             Quaternion rotation = Quaternion.identity;
             const float MARGIN = 0.1f;
 
@@ -92,34 +87,8 @@ namespace Assets.Scripts.Interaction.Devices
 
         private Vector3 GetTrackPadMovement()
         {
-            Vector2 trackPadAxis = HOVR_Input.GetTrackpadAxis();
-            Vector3 movement = Vector3.zero;
-            const float MARGIN = 0.1f;
-
-            if (_movementMode != MovementMode.Rotation)
-            {
-                if (trackPadAxis.x > MARGIN)
-                {
-                    movement += GetCurrentCamera().transform.right * trackPadAxis.x;
-                }
-                if (trackPadAxis.x < MARGIN)
-                {
-                    movement += GetCurrentCamera().transform.right * trackPadAxis.x;
-                }
-                if (trackPadAxis.y > MARGIN || trackPadAxis.y < MARGIN)
-                {
-                    if (_movementMode == MovementMode.Forward)
-                    {
-                        movement += GetCurrentCamera().transform.forward * trackPadAxis.y;
-                    }
-                    else
-                    {
-                        movement += GetCurrentCamera().transform.up * trackPadAxis.y;
-                    }
-                }
-            }
-
-            return movement * 0.005f;
+            Vector2 trackPadAxis = HOVR_Input.GetTrackpadAxis((uint)_tracker.DeviceId);
+            return trackPadAxis.normalized * 0.005f;
         }
 
         public override InputInteractionHandler GetInteractionHandler()
@@ -155,6 +124,11 @@ namespace Assets.Scripts.Interaction.Devices
         public void AddRotationEventListener(UnityAction<Quaternion> callback)
         {
             RotationEvent.AddListener(callback);
+        }
+
+        public int GetIndex()
+        {
+            return _tracker.DeviceId;
         }
     }
 }

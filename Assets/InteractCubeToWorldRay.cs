@@ -1,43 +1,40 @@
 ﻿using Assets.Scripts.Interaction;
 using Assets.Scripts.Interaction.Bhvrs;
+using Assets.Scripts.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractCubeToWorldRay : MonoBehaviour, InteractSelectionObject, InteractHoverObject
+public class InteractCubeToWorldRay : MonoBehaviour, InteractHoverObject
 {
     [SerializeField]
     private MeshRenderer _meshRenderer = default;
+    private Dictionary<int, CameraRayCreator> _cameraRayCreatorMapping = new Dictionary<int, CameraRayCreator>();
     [SerializeField]
-    private CameraRayCreator _cameraRayCreator = default;
+    private CameraRayCreator _rayCreatorPrefab = default;
     [SerializeField]
     private bool _invertMinPoint = false;
 
-    public void OnBeginSelection(InteractArgs args)
+    private CameraRayCreator GetCameraRayCreator(InteractArgs args)
     {
+        if (!_cameraRayCreatorMapping.ContainsKey(args.ControllerIndex))
+        {
+            var newRayCreator = Instantiate(_rayCreatorPrefab, _rayCreatorPrefab.transform.parent);
+            var interactHandler = newRayCreator.GetComponent<InteractionHandler>();
+            interactHandler.SetInputHandlerFactory(args.InputFactory);
+            _cameraRayCreatorMapping.Add(args.ControllerIndex, newRayCreator);
+        }
+        return _cameraRayCreatorMapping[args.ControllerIndex];
     }
 
-    public void OnEndSelection(InteractArgs args)
+    private void ClearRaycastHits(InteractArgs args)
     {
-    }
-
-    public void OnUpdateSelection(InteractArgs args)
-    {
-    }
-
-    private void CalculateRaycastHits(RaycastHit[] hits)
-    {
-
-    }
-
-    private void ClearRaycastHits()
-    {
-        _cameraRayCreator.ClearRay();
+        GetCameraRayCreator(args).ClearRay();
     }
 
     public void OnHoverBegin(InteractArgs args)
     {
-        _cameraRayCreator.InitRay();
+        GetCameraRayCreator(args).InitRay();
     }
 
     private Vector3 CalculateMinPoint(Vector3 contactPoint)
@@ -80,17 +77,16 @@ public class InteractCubeToWorldRay : MonoBehaviour, InteractSelectionObject, In
         }
 
         resultPoint = new Vector2(Mathf.Abs(resultPoint.x), Mathf.Abs(resultPoint.y));
-        Debug.Log(resultPoint);
         return resultPoint;
     }
 
     public void OnHoverEnd(InteractArgs args)
     {
-        ClearRaycastHits();
+        ClearRaycastHits(args);
     }
 
     public void OnHoverUpdate(InteractArgs args)
     {
-        _cameraRayCreator.CreateRaycast(GetMeshContactScreenPoint(args.HitPosition));
+        GetCameraRayCreator(args).CreateRaycast(GetMeshContactScreenPoint(args.HitPosition));
     }
 }

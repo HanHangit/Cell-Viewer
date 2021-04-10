@@ -27,6 +27,11 @@ namespace Assets.Scripts.Interaction
         private Vector3 _movementDuringSelection = Vector3.zero;
         private bool _inSelectionMode = false;
 
+        public void SetInputHandlerFactory(InputInteractionHandlerFactory factory)
+        {
+            _inputHandlerFactory = factory;
+        }
+
         private void Start()
         {
             _inputHandler = _inputHandlerFactory.GetInteractionHandler();
@@ -55,7 +60,7 @@ namespace Assets.Scripts.Interaction
         {
             if (_inSelectionMode)
             {
-                _movementDuringSelection += arg0;
+                _movementDuringSelection += _cameraHandler.GetForwardVector() * arg0.y;
             }
             else
             {
@@ -67,7 +72,7 @@ namespace Assets.Scripts.Interaction
         {
             foreach (var interactObject in _currentSelectionObjects)
             {
-                interactObject.OnEndSelection(_interactArgsCreator.GetInteractArgs());
+                interactObject.OnEndSelection(CreateInteractArgs());
             }
             _currentSelectionObjects.Clear();
             _movementDuringSelection = Vector3.zero;
@@ -81,7 +86,7 @@ namespace Assets.Scripts.Interaction
             _currentSelectionObjects.AddRange(_interactObjectHandler.GetCurrentSelectionObjects());
             foreach (var selectionObject in _currentSelectionObjects)
             {
-                selectionObject.OnBeginSelection(_interactArgsCreator.GetInteractArgs());
+                selectionObject.OnBeginSelection(CreateInteractArgs());
             }
         }
 
@@ -89,8 +94,9 @@ namespace Assets.Scripts.Interaction
         {
             foreach (var selectionObject in _currentSelectionObjects)
             {
-                var interactArgs = _interactArgsCreator.GetInteractArgs();
+                var interactArgs = CreateInteractArgs();
                 interactArgs.Offset = _movementDuringSelection;
+                interactArgs.ControllerIndex = _inputHandler.GetIndex();
                 selectionObject.OnUpdateSelection(interactArgs);
             }
         }
@@ -100,7 +106,7 @@ namespace Assets.Scripts.Interaction
             AddNewInteractObjects(obj);
             foreach (var interactObject in obj)
             {
-                interactObject.OnHoverBegin(_interactArgsCreator.GetInteractArgs());
+                interactObject.OnHoverBegin(CreateInteractArgs());
             }
         }
 
@@ -108,8 +114,17 @@ namespace Assets.Scripts.Interaction
         {
             foreach (var interactObject in obj)
             {
-                interactObject.OnHoverUpdate(_interactArgsCreator.GetInteractArgs());
+                interactObject.OnHoverUpdate(CreateInteractArgs());
             }
+        }
+
+        private InteractArgs CreateInteractArgs()
+        {
+            var args = _interactArgsCreator.GetInteractArgs();
+            args.InputFactory = _inputHandlerFactory;
+            args.ControllerIndex = _inputHandler.GetIndex();
+
+            return args;
         }
 
         private void HoverEndEventListener(List<InteractHoverObject> obj)
@@ -118,7 +133,7 @@ namespace Assets.Scripts.Interaction
 
             foreach (var interactObject in obj)
             {
-                interactObject.OnHoverEnd(_interactArgsCreator.GetInteractArgs());
+                interactObject.OnHoverEnd(CreateInteractArgs());
             }
         }
 
@@ -156,6 +171,7 @@ namespace Assets.Scripts.Interaction
         void AddInteractionReleasedEventListener(UnityAction callback);
         void AddMovementEventListener(UnityAction<Vector3> callback);
         void AddRotationEventListener(UnityAction<Quaternion> callback);
+        int GetIndex();
     }
 
     public interface InteractObjectHandler
@@ -171,6 +187,7 @@ namespace Assets.Scripts.Interaction
 
     public interface CameraHandler
     {
+        Vector3 GetForwardVector();
         void MoveCamera(Vector3 move);
         void RotateCamera(Quaternion rotation);
     }

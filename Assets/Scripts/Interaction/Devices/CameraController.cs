@@ -15,17 +15,22 @@ namespace Assets.Scripts.Interaction.Devices
 
         public void MoveCamera(Vector3 move)
         {
-            _transform.position += move;
+            //_transform.position += move;
         }
 
         public void RotateCamera(Quaternion rotation)
         {
-            _transform.Rotate(rotation.eulerAngles);
+            //_transform.Rotate(rotation.eulerAngles);
         }
 
         public override CameraHandler CreateCameraHandler()
         {
             return this;
+        }
+
+        public Vector3 GetForwardVector()
+        {
+            return _transform.forward;
         }
     }
 }

@@ -16,11 +16,6 @@ namespace Assets.Scripts.Interaction.Bhvrs
 
         private bool _isActive = false;
 
-        private void OnValidate()
-        {
-            _cameraFactory = GetComponent<CameraHandlerFactory>();
-        }
-
         private void Start()
         {
             _cameraHandler = _cameraFactory.CreateCameraHandler();
@@ -34,7 +29,7 @@ namespace Assets.Scripts.Interaction.Bhvrs
 
         public void MoveCamera(Vector3 move)
         {
-            if(_isActive)
+            if (_isActive)
             {
                 _cameraHandler.MoveCamera(move);
             }
@@ -51,6 +46,11 @@ namespace Assets.Scripts.Interaction.Bhvrs
         public override CameraHandler CreateCameraHandler()
         {
             return this;
+        }
+
+        public Vector3 GetForwardVector()
+        {
+            return _cameraHandler.GetForwardVector();
         }
     }
 }
