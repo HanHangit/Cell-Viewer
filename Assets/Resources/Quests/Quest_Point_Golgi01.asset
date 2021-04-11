@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f5f6749fa26bf4dacb73c022b2735e, type: 3}
   m_Name: Quest_Point_Golgi01
   m_EditorClassIdentifier: 
-  _description: "Was k\xFCmmert sich um die Bildung von prim\xE4ren Lysosomen?"
-  _answer: Hier steht eine gute didaktische Antwort!
+  _description: Wo befindet sich der Golgi-Aparrat?
+  _answer: Du hast den Golgi-Aparrat gefunden!
   _targetEntity: {fileID: 11400000, guid: 29e4bcb50ad997c409922bc192f05792, type: 2}
   _questionMode: 1

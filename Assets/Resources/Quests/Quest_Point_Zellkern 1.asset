@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90f5f6749fa26bf4dacb73c022b2735e, type: 3}
-  m_Name: Quest_Point_Ribosomes
+  m_Name: Quest_Point_Zellkern 1
   m_EditorClassIdentifier: 
-  _description: Findest du ein Ribosome?
-  _answer: Du haste ein gutes Auge. Die Ribosomen sind sehr klein und dienen dazu,
-    Protein herzustellen.
-  _targetEntity: {fileID: 11400000, guid: 3893679b5a9643f40be7a8793e1ca89b, type: 2}
+  _description: In welcher Zellorganell befindet sich das Erbgut?
+  _answer: Korrekt. Das Erbgut befindet sich in einem Zellkern, welcher im Cytoplasma
+    eingelegt ist.
+  _targetEntity: {fileID: 11400000, guid: 2d4a331d6ad9f5641a01afe40db0e294, type: 2}
   _questionMode: 1

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Quest_Point_Centrioles01
   m_EditorClassIdentifier: 
   _description: "Welche Zellenteil hat eine zylinderf\xF6rmige Struktur?"
-  _answer: Hier steht eine gute didaktische Antwort!
+  _answer: Genau, es sind die Zentriolen. Gut gemacht!
   _targetEntity: {fileID: 11400000, guid: 679dae61f7bf26248b71454c34c2b5b2, type: 2}
   _questionMode: 1

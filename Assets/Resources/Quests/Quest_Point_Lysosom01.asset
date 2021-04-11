@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f5f6749fa26bf4dacb73c022b2735e, type: 3}
   m_Name: Quest_Point_Lysosom01
   m_EditorClassIdentifier: 
-  _description: Welches Zellorganell ist mit einer einfachen Biomembran umschlossene
-    Vesikel?
-  _answer: Hier steht eine gute didaktische Antwort!
+  _description: Welches Zellorganell ist mit einer einfachen Biomembran umschlossene?
+  _answer: Du hast gute Augen. Die Lysosom!
   _targetEntity: {fileID: 11400000, guid: ae7bcc15ed62c8847a896b448cf3edc9, type: 2}
   _questionMode: 1

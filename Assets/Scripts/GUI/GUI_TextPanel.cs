@@ -40,6 +40,7 @@ public class GUI_TextPanel : MonoBehaviour
 	private void ShowSolutionListener(Player.TextArgs arg0)
 	{
 		_nextQuestButton.gameObject.SetActive(true);
+		SetText(_questionText, arg0.Newtext);
 	}
 
 	private void TextChangeListener(Player.TextArgs arg0)

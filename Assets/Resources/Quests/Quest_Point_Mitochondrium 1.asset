@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Quest_Point_Mitochondrium 1
   m_EditorClassIdentifier: 
   _description: Wo befindet sich Mitochondrium?
-  _answer: Hier steht eine gute didaktische Antwort!
+  _answer: Das ist Korrekt. Wie du siehst werden die Mitochondrium von einer Doppelmembran
+    umschlossen.
   _targetEntity: {fileID: 11400000, guid: 0cf9850fbce75a54aa1a7a97db7cdb64, type: 2}
   _questionMode: 1

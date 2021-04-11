@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Quest_Point_Lysosom
   m_EditorClassIdentifier: 
   _description: Finde ein Lysomon in der Zelle!
-  _answer: Hier steht eine gute didaktische Antwort!
+  _answer: Du hast ein Lysomsom gefunden.
   _targetEntity: {fileID: 11400000, guid: ae7bcc15ed62c8847a896b448cf3edc9, type: 2}
   _questionMode: 1

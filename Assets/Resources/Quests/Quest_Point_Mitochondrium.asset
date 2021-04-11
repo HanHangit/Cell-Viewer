@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Quest_Point_Mitochondrium
   m_EditorClassIdentifier: 
   _description: Welches Zellorganell wird vone einer Doppelmembran umschlossen?
-  _answer: Hier steht eine gute didaktische Antwort!
+  _answer: Korrekt, Mitochondrien werden von einer Doppelmembran umschlossen.
   _targetEntity: {fileID: 11400000, guid: 0cf9850fbce75a54aa1a7a97db7cdb64, type: 2}
   _questionMode: 1

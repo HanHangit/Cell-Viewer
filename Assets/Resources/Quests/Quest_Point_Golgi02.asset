@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _description: "Welches Zellenteil empf\xE4ngt Vesikel, in dennen Proteine enthalten
     sind?"
-  _answer: Hier steht eine gute didaktische Antwort!
+  _answer: "Korrekt, der Golgi-Apparate empf\xE4ngt Vesikel und Speichert diese."
   _targetEntity: {fileID: 11400000, guid: 29e4bcb50ad997c409922bc192f05792, type: 2}
   _questionMode: 1
