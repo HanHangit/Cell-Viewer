@@ -94,19 +94,19 @@ namespace Assets.Scripts.Movement
 
             if (Input.GetKey(KeyCode.W))
             {
-                result += _camera.transform.up;
+                result += new Vector3(0, 1, 0);
             }
             else if (Input.GetKey(KeyCode.A))
             {
-                result += _camera.transform.right * -1;
+                result += new Vector3(1, 0, 0);
             }
             else if (Input.GetKey(KeyCode.D))
             {
-                result += _camera.transform.right;
+                result += new Vector3(-1, 0, 0);
             }
             else if (Input.GetKey(KeyCode.S))
             {
-                result += _camera.transform.up * -1;
+                result += new Vector3(0, -1, 0);
             }
 
             return result.normalized * _movementSpeed;
@@ -118,7 +118,7 @@ namespace Assets.Scripts.Movement
 
             if (scrollDelta != Vector2.zero)
             {
-                MovementEvent?.Invoke(_deviceRoot.forward * scrollDelta.y * _scrollSpeed);
+                MovementEvent?.Invoke(new Vector3(0, 0, scrollDelta.y * _movementSpeed));
             }
         }
 

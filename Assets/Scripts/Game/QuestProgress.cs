@@ -68,16 +68,16 @@ public class QuestProgress : MonoBehaviour, IQuestProgress, IGameEntities
         }
     }
 
-    public QuestEntityBhvr GetEntityBhvr(Entity entity)
+    List<QuestEntityBhvr> IGameEntities.GetEntityBhvrs(Entity entity)
     {
-        var obj = _questEntityBhvrs.Find(q => q.Entity == entity);
+        var obj = _questEntityBhvrs.FindAll(q => q.Entity == entity);
         if (obj != null)
         {
             return obj;
         }
         else
         {
-            return null;
+            return new List<QuestEntityBhvr>();
         }
     }
 }

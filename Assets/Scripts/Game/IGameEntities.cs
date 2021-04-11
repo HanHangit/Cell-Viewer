@@ -1,9 +1,10 @@
 ﻿using Assets.Scripts.Interaction.Bhvrs;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.Game
 {
     public interface IGameEntities
     {
-        QuestEntityBhvr GetEntityBhvr(Entity entity);
+        List<QuestEntityBhvr> GetEntityBhvrs(Entity entity);
     }
 }

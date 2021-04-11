@@ -19,17 +19,18 @@ namespace Assets.Scripts.Game
 
         public Quest_DragBhvr(Quest quest, IGameEntities gameEntities)
         {
-            var targetEntity = gameEntities.GetEntityBhvr(quest.GetTargetEntity());
-            if (targetEntity != null)
-            {
-                _samePosition = new GameLogic_SamePosition(new GamePositionAdapter(targetEntity), 0.05f);
-                _samePosition.SetGameTask(this);
-                _samePosition.SetDragableObject(new GamePositionAdapter(targetEntity, true));
-            }
-            else
-            {
-                Debug.LogWarning("Entity not found: " + quest.GetTargetEntity().name);
-            }
+            Debug.LogError("Not Implemented");
+            //var targetEntity = gameEntities.GetEntityBhvrs(quest.GetTargetEntity());
+            //if (targetEntity != null)
+            //{
+            //    _samePosition = new GameLogic_SamePosition(new GamePositionAdapter(targetEntity), 0.05f);
+            //    _samePosition.SetGameTask(this);
+            //    _samePosition.SetDragableObject(new GamePositionAdapter(targetEntity, true));
+            //}
+            //else
+            //{
+            //    Debug.LogWarning("Entity not found: " + quest.GetTargetEntity().name);
+            //}
         }
 
         public override void Update()

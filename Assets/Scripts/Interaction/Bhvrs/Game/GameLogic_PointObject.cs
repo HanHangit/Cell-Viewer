@@ -24,6 +24,11 @@ namespace Assets.Scripts.Interaction
         private void OnObjectSelectedEvent()
         {
             _gameTask.OnTaskSuccess();
+            RemoveListener();
+        }
+
+        public void RemoveListener()
+        {
             _selectionObject.RemoveOnSelectionEventListener(OnObjectSelectedEvent);
         }
     }

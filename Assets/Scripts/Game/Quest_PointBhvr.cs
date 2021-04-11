@@ -13,14 +13,28 @@ namespace Assets.Scripts.Game
 {
     public class Quest_PointBhvr : QuestBhvr
     {
-        private GameLogic_PointObject _pointOject = null;
+        private List<GameLogic_PointObject> _pointOjects = new List<GameLogic_PointObject>();
 
         public Quest_PointBhvr(Quest quest, IGameEntities gameEntities)
         {
-            var obj = gameEntities.GetEntityBhvr(quest.GetTargetEntity());
-            if(obj != null)
+            var obj = gameEntities.GetEntityBhvrs(quest.GetTargetEntity());
+
+            if (obj != null)
             {
-                _pointOject = new GameLogic_PointObject(this, obj.GetComponentInChildren<InteractSelectionEventObject>());
+                foreach (var entityBhvr in obj)
+                {
+                    _pointOjects.Add(new GameLogic_PointObject(this, entityBhvr.GetComponentInChildren<InteractSelectionEventObject>()));
+                }
+            }
+        }
+
+        public override void OnTaskSuccess()
+        {
+            base.OnTaskSuccess();
+
+            foreach (var item in _pointOjects)
+            {
+                item.RemoveListener();
             }
         }
     }
