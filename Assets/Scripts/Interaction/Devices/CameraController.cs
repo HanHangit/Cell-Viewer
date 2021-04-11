@@ -15,7 +15,7 @@ namespace Assets.Scripts.Interaction.Devices
 
         public void MoveCamera(Vector3 move)
         {
-            //_transform.position += move;
+            _transform.position += _transform.up * move.y + _transform.right * move.x * -1 + _transform.forward * move.z;
         }
 
         public void RotateCamera(Quaternion rotation)

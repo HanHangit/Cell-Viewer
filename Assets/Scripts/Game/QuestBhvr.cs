@@ -19,7 +19,7 @@ namespace Assets.Scripts.Game
             _questCompletedEvent.AddEventListener(action);
         }
 
-        public void OnTaskSuccess()
+        public virtual void OnTaskSuccess()
         {
             _questCompletedEvent.InvokeEvent(new QuestProgressArgs());
         }

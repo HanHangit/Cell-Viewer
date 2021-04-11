@@ -16,6 +16,8 @@ namespace Assets.Scripts.Interaction.Handlers
 
         private Vector3 _offsetFromCollider = Vector3.zero;
 
+        private bool _isInSelection = false;
+
         private float _offset = 0.0f;
 
         private UnityEvent OnSelectionEvent = new UnityEvent();
@@ -27,16 +29,22 @@ namespace Assets.Scripts.Interaction.Handlers
 
         public void OnBeginSelection(InteractArgs args)
         {
-            _offset = Vector3.Distance(args.OriginPosition, args.HitPosition);
-            _offsetFromCollider = _root.position - args.HitPosition;
-            if (OnSelectionEvent != null)
+            if (!_isInSelection)
             {
-                OnSelectionEvent.Invoke();
+                _offset = Vector3.Distance(args.OriginPosition, args.HitPosition);
+                _offsetFromCollider = _root.position - args.HitPosition;
+                if (OnSelectionEvent != null)
+                {
+                    OnSelectionEvent.Invoke();
+                }
+
+                _isInSelection = true;
             }
         }
 
         public void OnEndSelection(InteractArgs args)
         {
+            _isInSelection = false;
         }
 
         public void OnUpdateSelection(InteractArgs args)
