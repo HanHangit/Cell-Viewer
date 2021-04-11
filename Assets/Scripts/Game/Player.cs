@@ -6,15 +6,17 @@ using UnityEngine.Events;
 
 public class Player
 {
-    [SerializeField]
-    private int _points = default;
-    [SerializeField]
+	private int _points = default;
     private string _text = default;
 
     private IQuestProgress _questProgress;
-    public GenericEvent<PointArgs> PointChangedEvent = new GenericEvent<PointArgs>();
-    public GenericEvent<TextArgs> TextChangedEvent = new GenericEvent<TextArgs>();
     private GenerateRandomQuest _questGenerator;
+    private Quest _currentQuest = default;
+
+    public GenericEvent<PointArgs> PointChangedEvent = new GenericEvent<PointArgs>();
+    public GenericEvent<TextArgs> ShowSolutionEvent = new GenericEvent<TextArgs>();
+    public GenericEvent<TextArgs> TextChangedEvent = new GenericEvent<TextArgs>();
+
 
     public Player(IQuestProgress progress)
     {
@@ -25,18 +27,27 @@ public class Player
         _text = "";
     }
 
+    public void SetNewQuest()
+    {
+	    _currentQuest = _questGenerator.GetRandomQuest();
+	    SetNewQuest(_currentQuest);
+    }
+
     private void QuestCompletedListener(QuestProgressArgs arg0)
     {
         AddPoint();
-        var quest = _questGenerator.GetRandomQuest();
-        SetNewQuest(quest);
+        ShowConclusion();
+    }
+
+    private void ShowConclusion()
+    {
+	    ShowSolutionEvent.InvokeEvent(new TextArgs("",_currentQuest.GetAnswer()));
     }
 
     public void StartGame()
     {
         _questGenerator = new GenerateRandomQuest();
-        var quest = _questGenerator.GetRandomQuest();
-        SetNewQuest(quest);
+        SetNewQuest();
     }
 
     private void SetNewQuest(Quest quest)
@@ -85,6 +96,4 @@ public class Player
             Newtext = newtext;
         }
     }
-
-
 }

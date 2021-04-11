@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Quest_Point_Zellkern
   m_EditorClassIdentifier: 
   _description: Wo befindet sich der Zellkern?
+  _answer: Hier steht eine gute didaktische Antwort!
   _targetEntity: {fileID: 11400000, guid: 2d4a331d6ad9f5641a01afe40db0e294, type: 2}
-  _targetDragEntity: {fileID: 0}
   _questionMode: 1

@@ -8,6 +8,10 @@ public class Quest : ScriptableObject
     [SerializeField]
     private string _description = default;
     public string GetDescription() => _description;
+
+    [SerializeField]
+    private string _answer = default;
+    public string GetAnswer() => _answer;
     [SerializeField]
     private Entity _targetEntity = default;
     [SerializeField]

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90f5f6749fa26bf4dacb73c022b2735e, type: 3}
-  m_Name: Quest_Point_Ribosomes
+  m_Name: Quest_Point_Centrioles01
   m_EditorClassIdentifier: 
-  _description: Findest du ein Robosome?
+  _description: "Welche Zellenteil hat eine zylinderf\xF6rmige Struktur?"
   _answer: Hier steht eine gute didaktische Antwort!
-  _targetEntity: {fileID: 11400000, guid: 3893679b5a9643f40be7a8793e1ca89b, type: 2}
+  _targetEntity: {fileID: 11400000, guid: 679dae61f7bf26248b71454c34c2b5b2, type: 2}
   _questionMode: 1
